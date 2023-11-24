@@ -1,13 +1,10 @@
-import express, { Application, Request, Response } from 'express';
-import cors from 'cors';
+import express, { Application } from 'express';
 const app: Application = express();
-// const port = 3000;
+import cors from 'cors';
+import { UserRoutes } from './app/modules/user/user.route';
 app.use(express.json());
 app.use(cors());
-app.get('/', (req: Request, res: Response) => {
-  const a = 3;
 
-  res.send(a);
-});
+app.use('/api/users', UserRoutes);
 
 export default app;
