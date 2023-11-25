@@ -17,6 +17,6 @@ export interface IUser {
   age: number;
   email: string;
   isActive: boolean;
-  hobbies: [string, string];
+  hobbies: string[];
   address: IAddress;
 }
