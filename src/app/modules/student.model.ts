@@ -22,7 +22,7 @@ const fullNameSchema = new Schema<IFullName>({
     trim: true,
     required: [true, 'Last name is required'],
   },
-});
+}, { _id: false });
 
 const addressSchema = new Schema<IAddress>({
   street: {
@@ -37,11 +37,11 @@ const addressSchema = new Schema<IAddress>({
     type: String,
     required: true,
   },
-});
+}, { _id: false });
 
 const userSchema = new Schema<IUser, UserModel, IUserMethods>({
   userId: {
-    type: Number,
+    type: String,
     unique: true,
     trim: true,
     required: true,
@@ -105,7 +105,7 @@ userSchema.post('save', async function(doc, next){
 
 
 
-userSchema.methods.isUserExist = async function (userId:number) {
+userSchema.methods.isUserExist = async function (userId:string) {
   const existingUser = await User.findOne({userId})
   return existingUser;
 }

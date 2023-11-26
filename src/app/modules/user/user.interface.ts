@@ -11,7 +11,7 @@ export interface IAddress {
 }
 
 export interface IUser {
-  userId: number;
+  userId: string;
   username: string;
   password: string;
   fullName: IFullName;
@@ -24,7 +24,7 @@ export interface IUser {
 }
 
 export interface IUserMethods {
-  isUserExist(id: number): Promise<IUser | null>;
+  isUserExist(id: string): Promise<IUser | null>;
 }
 
 export type UserModel = Model<IUser, Record<string, never>, IUserMethods>;

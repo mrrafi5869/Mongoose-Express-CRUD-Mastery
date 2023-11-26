@@ -1,7 +1,7 @@
 import { User } from '../student.model';
 import { IUser } from './user.interface';
 
-const createUserIntoDb = async function (userData: IUser) {
+const createUserIntoDb = async function (userData: IUser) : Promise<IUser> {
   // const result = await User.create(user);
   const user = new User(userData) 
   if(await user.isUserExist(userData.userId)){
@@ -19,7 +19,7 @@ const getAllUsersFromDb = async function () {
   return result;
 };
 
-const getSpecificUsersFromDb = async (userId: number) => {
+const getSpecificUsersFromDb = async (userId: string) => {
   const result = await User.findOne({ userId });
   if(result === null){
     throw new Error('not user found')
@@ -27,14 +27,19 @@ const getSpecificUsersFromDb = async (userId: number) => {
   return result;
 };
 
-const updateUserInDb = async (id: string, path: string, value: any) => {
-  const result = await User.findOneAndUpdate(
-    { userId: id },
-    { $set: { [path]: value } },
-    { new: true },
-  );
-  return result;
-};
+const updateUserInDb = async (
+  userId: string,
+  userData: IUser,
+): Promise<IUser | null> => {
+  const result = await User.findByIdAndUpdate(userId, userData, {
+    new: true,
+    runValidators: true,
+  })
+  
+  return result
+}
+
+
 
 const deleteUserFromDb = async (id: string) => {
   const result = await User.deleteOne({ userId: id }, { isDelete: true });
