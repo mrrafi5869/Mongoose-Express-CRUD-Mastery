@@ -1,5 +1,14 @@
 import { Schema, model } from 'mongoose';
-import { IAddress, IFullName, IUser } from './user/user.interface';
+import bcrypt from 'bcrypt';
+
+import {
+  IAddress,
+  IFullName,
+  IUser,
+  IUserMethods,
+  UserModel
+} from './user/user.interface';
+import config from '../config';
 
 const fullNameSchema = new Schema<IFullName>({
   firstName: {
@@ -22,7 +31,7 @@ const addressSchema = new Schema<IAddress>({
   },
   city: {
     type: String,
-    required: true
+    required: true,
   },
   country: {
     type: String,
@@ -30,7 +39,7 @@ const addressSchema = new Schema<IAddress>({
   },
 });
 
-const userSchema = new Schema<IUser>({
+const userSchema = new Schema<IUser, UserModel, IUserMethods>({
   userId: {
     type: Number,
     unique: true,
@@ -63,7 +72,7 @@ const userSchema = new Schema<IUser>({
   isActive: {
     type: Boolean,
     enum: {
-      values: ["true", "false"]
+      values: ['true', 'false'],
     },
     required: true,
   },
@@ -76,6 +85,29 @@ const userSchema = new Schema<IUser>({
     type: addressSchema,
     required: true,
   },
+  isDelete: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-export const UserModel = model<IUser>('User', userSchema);
+userSchema.pre('save', async function(next){
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
+  const user = this;
+  user.password = await bcrypt.hash(user.password, Number(config.bcrypt_salt_rounds))
+  next();
+});
+
+userSchema.post('save', async function(doc, next){
+  doc.password = "";
+  next();
+})
+
+
+
+userSchema.methods.isUserExist = async function (userId:number) {
+  const existingUser = await User.findOne({userId})
+  return existingUser;
+}
+
+export const User = model<IUser, UserModel>('User', userSchema);
