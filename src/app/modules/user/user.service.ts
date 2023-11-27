@@ -52,6 +52,7 @@ const deleteUserFromDb = async (_id: string) => {
 const addProductToOrder = async (_id: string, productData: IOrder): Promise<void> => {
   try {
     const user = await User.findOne({ _id });
+    console.log(user);
     if (!user) {
       throw new Error('User not found');
     }

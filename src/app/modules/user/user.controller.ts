@@ -53,7 +53,6 @@ const getAllUsers = async (req: Request, res: Response) => {
       email: user.email,
       address: user.address,
     }));
-    //send response
     res.status(200).json({
       success: true,
       message: 'Users are retrieved successfully',
@@ -138,20 +137,16 @@ const deleteUser = async (req: Request, res: Response) => {
 // add orders
 export const addProductToOrder = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;  // Use req.params.id
+    const id = req.params.id; 
     const productData = req.body;
-
-    // Add the product to the user's order
     await User.addProductToOrder(id, productData);
 
-    // Send the response
     res.status(200).json({
       success: true,
       message: 'Order created successfully!',
       data: null,
     });
   } catch (error: any) {
-    // Handle errors
     res.status(500).json({
       success: false,
       message: error.message || 'Something went wrong',
@@ -159,9 +154,7 @@ export const addProductToOrder = async (req: Request, res: Response) => {
   }
 };
 
-
-//Retrieve all orders for a specific user:
-// Controller to handle retrieving all orders for a specific user
+//orders route
 export const getAllOrdersForUser = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
@@ -173,7 +166,6 @@ export const getAllOrdersForUser = async (req: Request, res: Response) => {
       throw new Error('User not found');
     }
 
-    // Send the response with the list of orders
     res.status(200).json({
       success: true,
       message: 'Order fetched successfully!',
