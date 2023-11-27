@@ -114,11 +114,11 @@ userSchema.post('save', async function(doc, next){
 
 userSchema.statics.addProductToOrder = async function (
   this: UserModel,
-  userId: number,
+  _id: string,
   productData: IOrder
 ): Promise<void> {
-  // Find the user by userId
-  const user = await this.findOne({ userId });
+  // Find the user by _id
+  const user = await this.findOne({ _id });
 
   if (!user) {
     throw new Error('User not found');
