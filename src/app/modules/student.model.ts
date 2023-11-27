@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import {
   IAddress,
   IFullName,
+  IOrder,
   IUser,
   IUserMethods,
   UserModel
@@ -38,6 +39,12 @@ const addressSchema = new Schema<IAddress>({
     required: true,
   },
 }, { _id: false });
+
+const orderSchema = new Schema<IOrder>({
+  productName: { type: String, required: true },
+  price: { type: Number, required: true },
+  quantity: { type: Number, required: true },
+});
 
 const userSchema = new Schema<IUser, UserModel, IUserMethods>({
   userId: {
@@ -89,6 +96,7 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>({
     type: Boolean,
     default: false,
   },
+  orders: { type: [orderSchema], default: [] }
 });
 
 userSchema.pre('save', async function(next){
@@ -103,6 +111,26 @@ userSchema.post('save', async function(doc, next){
   next();
 })
 
+
+userSchema.statics.addProductToOrder = async function (
+  this: UserModel,
+  userId: number,
+  productData: IOrder
+): Promise<void> {
+  // Find the user by userId
+  const user = await this.findOne({ userId });
+
+  if (!user) {
+    throw new Error('User not found');
+  }
+  user.orders = user.orders || [];
+
+  // Add the product to orders
+  user.orders.push(productData);
+
+  // Save the updated user
+  await user.save();
+};
 
 
 userSchema.methods.isUserExist = async function (userId:string) {

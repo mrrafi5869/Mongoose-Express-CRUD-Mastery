@@ -10,6 +10,12 @@ export interface IAddress {
   country: string;
 }
 
+export interface IOrder {
+  productName: string;
+  price: number;
+  quantity: number;
+}
+
 export interface IUser {
   userId: string;
   username: string;
@@ -21,10 +27,15 @@ export interface IUser {
   hobbies: string[];
   address: IAddress;
   isDelete: boolean;
+  orders?: IOrder[];
 }
+
 
 export interface IUserMethods {
   isUserExist(id: string): Promise<IUser | null>;
 }
 
-export type UserModel = Model<IUser, Record<string, never>, IUserMethods>;
+export type UserModel = Model<IUser, Record<string, never>, IUserMethods> & {
+  addProductToOrder(userId: number, productData: IOrder): Promise<void>;
+};
+
