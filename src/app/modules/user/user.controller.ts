@@ -138,7 +138,7 @@ const deleteUser = async (req: Request, res: Response) => {
 // add orders
 export const addProductToOrder = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const id = req.params.id;  // Use req.params.id
     const productData = req.body;
 
     // Add the product to the user's order
@@ -158,6 +158,7 @@ export const addProductToOrder = async (req: Request, res: Response) => {
     });
   }
 };
+
 
 //Retrieve all orders for a specific user:
 // Controller to handle retrieving all orders for a specific user

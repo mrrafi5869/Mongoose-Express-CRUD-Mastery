@@ -49,7 +49,7 @@ const deleteUserFromDb = async (_id: string) => {
   return result;
 };
 
-const addProductToOrder = async (_id: number, productData: IOrder): Promise<void> => {
+const addProductToOrder = async (_id: string, productData: IOrder): Promise<void> => {
   try {
     const user = await User.findOne({ _id });
     if (!user) {

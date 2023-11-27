@@ -36,6 +36,6 @@ export interface IUserMethods {
 }
 
 export type UserModel = Model<IUser, Record<string, never>, IUserMethods> & {
-  addProductToOrder(userId: number, productData: IOrder): Promise<void>;
+  addProductToOrder(id: string, productData: IOrder): Promise<void>;
 };
 
