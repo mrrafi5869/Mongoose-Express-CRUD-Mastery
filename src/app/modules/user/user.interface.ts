@@ -4,6 +4,7 @@ export interface IFullName {
   lastName: string;
 }
 
+
 export interface IAddress {
   street: string;
   city: string;
@@ -17,7 +18,7 @@ export interface IOrder {
 }
 
 export interface IUser {
-  userId: string;
+  userId: number;
   username: string;
   password: string;
   fullName: IFullName;
@@ -32,7 +33,7 @@ export interface IUser {
 
 
 export interface IUserMethods {
-  isUserExist(id: string): Promise<IUser | null>;
+  isUserExist(id: number): Promise<IUser | null>;
 }
 
 export type UserModel = Model<IUser, Record<string, never>, IUserMethods> & {

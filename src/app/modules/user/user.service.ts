@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { User } from '../student.model';
 import { IOrder, IUser } from './user.interface';
+
 
 const createUserIntoDb = async function (userData: IUser) : Promise<IUser> {
   // const result = await User.create(user);
   const user = new User(userData) 
-  if(await user.isUserExist(userData.userId)){
+  if(await user.isUserExist(Number(userData.userId))){
     throw new Error('User already exist')
   }
   const result = await user.save();

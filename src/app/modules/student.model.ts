@@ -48,7 +48,7 @@ const orderSchema = new Schema<IOrder>({
 
 const userSchema = new Schema<IUser, UserModel, IUserMethods>({
   userId: {
-    type: String,
+    type: Number,
     unique: true,
     trim: true,
     required: true,

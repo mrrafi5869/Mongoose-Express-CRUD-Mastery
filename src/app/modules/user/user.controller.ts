@@ -1,28 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import { userServices } from './user.service';
 import userValidationSchema from './user.zod.validation';
 import { User } from '../student.model';
-
-// const createUser = async (req: Request, res: Response) => {
-//   try {
-//     const { user: userData } = req.body;
-//     const validatedData = userValidationSchema.parse(userData)
-//     const result = await userServices.createUserIntoDb(validatedData);
-
-//     //send response
-//     res.status(201).json({
-//       success: true,
-//       message: 'User created successfully',
-//       data: result,
-//     });
-//   } catch (err: any) {
-//     res.status(400).json({
-//       success: false,
-//       message: err.message || 'Something went wrong',
-//       err,
-//     });
-//   }
-// };
 
 const createUser = async (req: Request, res: Response) => {
   try {
